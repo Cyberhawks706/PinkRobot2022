@@ -24,25 +24,12 @@ public class Drive extends Command {
 
 	public void execute(){
 		
-		
 
-		
-
-
-		
-
-
-
-
-
-
-		
-		
 		double leftPower;
 		double rightPower;
 		
-		double xboxX = (IO.xboxDrive.getRightX()-0.5)*2;
-		double xboxY = -(IO.xboxDrive.getRightY()-0.5)*2;
+		double xboxX = Math.pow(IO.xboxDrive.getRightX(), 3);
+		double xboxY = Math.pow(IO.xboxDrive.getRightY(), 3);
 
 		if(Math.abs(xboxX) < 0.05){
 			xboxX = 0;
@@ -51,16 +38,17 @@ public class Drive extends Command {
 			xboxY = 0;
 		}
 
-		leftPower = -(xboxY - xboxX);
+		leftPower = (xboxY - xboxX);
 		rightPower = (xboxY + xboxX);
 
-		Components.motorR1.set(ControlMode.PercentOutput, Constants.Drive.slowModifier);
-		Components.motorR2.set(ControlMode.PercentOutput, Constants.Drive.slowModifier);
-		Components.motorR3.set(ControlMode.PercentOutput, Constants.Drive.slowModifier);
-		Components.motorL1.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier);
-		Components.motorL2.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier);
-		Components.motorL3.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier);
-			
+		Components.motorR1.set(ControlMode.PercentOutput, Constants.Drive.slowModifier*rightPower);
+		Components.motorR2.set(ControlMode.PercentOutput, Constants.Drive.slowModifier*rightPower);
+		Components.motorR3.set(ControlMode.PercentOutput, Constants.Drive.slowModifier*rightPower);
+		Components.motorL1.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier*leftPower);
+		Components.motorL2.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier*leftPower);
+		Components.motorL3.set(ControlMode.PercentOutput, -Constants.Drive.slowModifier*leftPower);
+		
+		
 		}
 
 	protected void initialize() {

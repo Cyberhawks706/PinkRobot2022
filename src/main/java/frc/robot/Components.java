@@ -26,13 +26,13 @@ public class Components {
         motorR2 = new TalonSRX(10);
         motorR3 = new TalonSRX(11);
         motorL1 = new TalonSRX(6);
-        motorL2 = new TalonSRX(7);
-        motorL3 = new TalonSRX(8);
+        motorL2 = new TalonSRX(2);
+        motorL3 = new TalonSRX(7);
 
         chassis = new Chassis();
 
         drive = new Drive();
-    }
+    } 
     
 
 }
