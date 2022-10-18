@@ -16,7 +16,7 @@ public class Drive extends Command {
 	DatagramPacket dataPacket;
 	DatagramSocket dataSocket;
 	
-
+	boolean reverse = false;
 
 	public Drive() {
 		requires(Components.chassis);
@@ -27,19 +27,15 @@ public class Drive extends Command {
 
 		double leftPower;
 		double rightPower;
-		
-		double xboxX = Math.pow(IO.xboxDrive.getRightX(), 3);
-		double xboxY = Math.pow(IO.xboxDrive.getRightY(), 3);
-
-		if(Math.abs(xboxX) < 0.05){
-			xboxX = 0;
+		if(IO.xboxDrive.getAButton()) {
+			reverse = reverse ? false : true;
 		}
-		if(Math.abs(xboxY) < 0.05){
-			xboxY = 0;
-		}
+		double xboxX = Math.abs(IO.xboxDrive.getRightX()) * IO.xboxDrive.getRightX();
+		double xboxY = Math.abs(IO.xboxDrive.getRightY()) * IO.xboxDrive.getRightY();
 
-		leftPower = (xboxY - xboxX);
-		rightPower = (xboxY + xboxX);
+
+		leftPower = (xboxY - xboxX) * (reverse ? -1 : 1);
+		rightPower = (xboxY + xboxX) * (reverse ? -1 : 1);
 
 		Components.motorR1.set(ControlMode.PercentOutput, Constants.Drive.slowModifier*rightPower);
 		Components.motorR2.set(ControlMode.PercentOutput, Constants.Drive.slowModifier*rightPower);
